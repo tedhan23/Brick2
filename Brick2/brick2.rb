@@ -1,7 +1,7 @@
 require 'ruby2d' #similar to import in other languages
 
 #similar to frame setup in java. basic info about the window
-set title: "Brick 2!", background: [0, 50, 255, 1], viewport_width: 1920, viewport_height: 1080, resizable: true, width: 1920, height: 1080
+set title: "Brick 2!", background: [38, 219, 255, 1], viewport_width: 1920, viewport_height: 1080, resizable: true, width: 1920, height: 1080
 
 @scale = 0.5 #scale of how many meters to a pixel. this was really hard to do the way I wanted, and I'm not even 100% sure this is labeled properly. I can fix that later
 #however, fixing that would be a HUGE hassle as I've already made it consistent to be like this (complete nonsense, the smaller scale is a larger scale) with multiple
@@ -56,7 +56,7 @@ ground = Rectangle.new( #the ground
   x: 0, y: 980,
   z: 21,
   width: 2080, height: 100,
-  color: 'green'
+  color: [40, 145, 0] 
 )
 
 Text.new( #info to close the window. used to be fullscreen by default, so I had to code in a way to exit without using ctrl/alt/delete
