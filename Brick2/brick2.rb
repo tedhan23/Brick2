@@ -14,6 +14,7 @@ set title: "Brick 2!", background: [38, 219, 255, 1], viewport_width: 1920, view
 @muk = 0.5 #coefficient of kinetic friction
 @vx = 0 #velocities of the brick
 @vy = 0
+@dt = 1
 
 info_background = Rectangle.new( #a whit box that the info text goes into
   x: 1520, y: 0,
@@ -87,21 +88,27 @@ on :key_down do |event| #keyboard inputs
     @scale = @scale + 0.1
   elsif event.key == 'o' #decreases the scale
     @scale = @scale - 0.1
-  #elsif event.key == 'w'
-    #@vy = @vy+10
-  #elsif event.key == 's'
-    #@vy = @vy-10
-  #elsif event.key == 'd'
-    #@vx = @vx+10
-  #elsif event.key == 'a'
-    #@vx = @vx-10
-  end
+  elsif event.key == 'w'
+    @vy = @vy+10
+  elsif event.key == 's'
+    @vy = @vy-10
+  elsif event.key == 'd'
+    @vx = @vx+10
+  elsif event.key == 'a'
+    @vx = @vx-10
+  elsif event.key == 't' #doesn't work
+    if @dt == 1
+      @dt = 0
+    else
+      @dt = 1
+    end
+  end 
 end
 
 on :mouse_down do |event|
   case event.button
   when :left
-
+  
   when :middle
 
   when :right
@@ -135,10 +142,12 @@ update do #update loop. happens 60 times per second
         @vy = @vy + @ay #every tick, update velocity
       end
       if b.y >= 920
-        if @vx > 0
+        if @vx > 0.15
           @vx = @vx - (@muk * @m * -1 * @ay) #if vx is positive, friction force pushes left. this is buggy because the control for @ay is kind of busted
-        elsif @vx < 0
+        elsif @vx < -0.15
           @vx = @vx + (@muk * @m * -1 * @ay) #if vx is negative, friction force pushes right
+        else
+          @vx = 0
         end
       end
     end
@@ -147,7 +156,7 @@ update do #update loop. happens 60 times per second
 
     @masstext.x = b.x+10 #makes the weight label follow the brick
     @masstext.y = b.y+10
-    @tick = @tick + 1 #increment tick
+    @tick = @tick + @dt #increment tick
   #end
   @scaler1 = Text.new( #add updated scale info
     "Scale: 1 px = #{@scale.round(4)} meter(s) (use o and p keys to decrease or increase)",
